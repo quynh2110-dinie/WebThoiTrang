@@ -1,0 +1,34 @@
+﻿@model WebThoiTrang.Models.ViewModel.HomeProductVM
+@using PagedList.Mvc;
+
+@if (Model.NewProducts != null && Model.NewProducts.Any())
+{
+    <h3 class="mt-5 mb-3 text-center" style="font-weight: bold;"> SẢN PHẨM MỚI NHẤT</h3>
+    <div class="row">
+        @foreach (var product in Model.NewProducts)
+        {
+            var gia = product.BienTheSanPham.FirstOrDefault(b => b.TrangThai)?.GiaBan ?? 0;
+            <div class="col-md-3 col-6 mb-4">
+                <div class="card h-100 shadow-sm border-0">
+                    <a href="@Url.Action("ChiTiet", "SanPham", new { id = product.MaSanPham })">
+                        <img src="@product.HinhAnhDaiDien" class="card-img-top" alt="@product.TenSanPham" style="height: 250px; object-fit: cover;" />
+                    </a>
+                    <div class="card-body text-center d-flex flex-column">
+                        <h6 class="card-title text-truncate" title="@product.TenSanPham">@product.TenSanPham</h6>
+                        <p class="text-danger fw-bold fs-5 mt-auto mb-2">@gia.ToString("N0") đ</p>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    <div class="d-flex justify-content-center mt-4">
+        @Html.PagedListPager(Model.NewProducts, page => Url.Action("Index", new { page, searchTerm = Model.SearchTerm, category = ViewBag.CategoryHienTai }))
+    </div>
+}
+else
+{
+    <div class="alert alert-warning text-center mt-4">
+        Không tìm thấy sản phẩm nào phù hợp.
+    </div>
+}

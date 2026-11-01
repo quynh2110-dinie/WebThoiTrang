@@ -1,0 +1,49 @@
+﻿@model WebThoiTrang.Models.ViewModel.HomeProductVM
+
+@if (Model.FeaturedProducts != null && Model.FeaturedProducts.Any())
+{
+    <div class="d-flex justify-content-between align-items-end mb-4 mt-5 border-bottom pb-2">
+        <h3 class="fw-bold m-0">Sản phẩm nổi bật</h3>
+    </div>
+    <div class="row g-4">
+        @foreach (var product in Model.FeaturedProducts)
+        {
+            var gia = product.BienTheSanPham.FirstOrDefault(b => b.TrangThai)?.GiaBan ?? 0;
+            <div class="col-6 col-md-3 mb-4">
+                <div class="card h-100 border-0 shadow-sm product-card" style="border-radius: 12px; overflow: hidden;">
+                    <div class="position-relative overflow-hidden">
+                        <a href="@Url.Action("ChiTiet", "SanPham", new { id = product.MaSanPham })">
+                            <img src="@product.HinhAnhDaiDien" class="card-img-top product-img" alt="@product.TenSanPham" style="height: 320px; object-fit: cover;" />
+                        </a>
+                        <span class="position-absolute top-0 start-0 bg-white text-dark px-3 py-1 m-2 rounded-pill small fw-bold shadow-sm">
+                            @(product.DanhMuc != null ? product.DanhMuc.TenDanhMuc : "Nữ")
+                        </span>
+                    </div>
+                    <div class="card-body text-center bg-white p-4">
+                        <h6 class="card-title fw-bold text-truncate" title="@product.TenSanPham">@product.TenSanPham</h6>
+                        <p class="text-danger fw-bold fs-5 mb-3 mt-2">@gia.ToString("N0") đ</p>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+
+<style>
+    .product-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+        }
+
+    .product-img {
+        transition: transform 0.5s ease;
+    }
+
+    .product-card:hover .product-img {
+        transform: scale(1.05);
+    }
+</style>

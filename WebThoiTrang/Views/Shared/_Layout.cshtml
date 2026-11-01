@@ -1,0 +1,146 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title - NOVEASTORE</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --brand: #4f6bed;
+            --brand-dark: #354fc4;
+            --ink: #0f172a;
+            --muted: #64748b;
+            --line: #d1dded;
+            --surface: #afc3df;
+            --page: #afc3df;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--page); 
+            color: var(--ink);
+        }
+
+        .navbar-custom {
+            background-color: #ffffff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .navbar-brand {
+            font-weight: 800;
+            letter-spacing: 1px;
+            color: var(--brand) !important;
+        }
+
+        .nav-link {
+            font-weight: 500;
+            color: var(--ink) !important;
+            transition: color 0.2s;
+        }
+
+            .nav-link:hover {
+                color: var(--brand) !important;
+            }
+    </style>
+</head>
+<body>
+    <!-- HEADER -->
+    <nav class="navbar navbar-expand-lg navbar-custom sticky-top">
+        <div class="container">
+            <a class="navbar-brand fs-4" href="/Home/Index">
+                NOVEA<span style="color: #ff6b6b;">STORE</span>
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item"><a class="nav-link px-3" href="/Home/Index">Trang chủ</a></li>
+
+                    <li class="nav-item"><a class="nav-link px-3" href="/Home/Index?category=Áo">Áo Kiểu</a></li>
+                    <li class="nav-item"><a class="nav-link px-3" href="/Home/Index?category=Quần">Quần</a></li>
+                    <li class="nav-item"><a class="nav-link px-3" href="/Home/Index?category=Váy">Váy</a></li>
+                    <li class="nav-item"><a class="nav-link px-3" href="/Home/Index?category=Áo Khoác">Áo khoác</a></li>
+                </ul>
+                <ul class="navbar-nav">
+                    <!-- Giỏ hàng -->
+                    <li class="nav-item">
+                        <a class="nav-link position-relative me-3" href="/GioHang/Index">
+                            <i class="fa-solid fa-bag-shopping fs-5"></i>
+                            @{
+                                var gioHang = Session["GioHang"] as List<WebThoiTrang.Controllers.GioHangItem>;
+                                if (gioHang != null && gioHang.Count > 0)
+                                {
+                                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.6rem;">
+                                        @gioHang.Count
+                                    </span>
+                                }
+                            }
+                        </a>
+                    </li>
+                    <!-- Tài khoản -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Account/DangNhap"><i class="fa-regular fa-user fs-5"></i></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- BODY -->
+    <div style="min-height: 70vh;">
+        @RenderBody()
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="bg-dark text-white pt-5 pb-3 mt-5">
+        <div class="container">
+            <div class="row text-md-start">
+
+                <div class="col-md-4 mb-4">
+                    <h4 class="text-uppercase fw-bold mb-3">
+                        NOVEA<span style="color: #ff6b6b;">STORE</span>
+                    </h4>
+                    <p class="text-white-50">
+                        Thời trang hiện đại, tôn vinh phong cách cá nhân của bạn.
+                        Chuyên cung cấp các sản phẩm thời trang nữ chất lượng cao.
+                    </p>
+                </div>
+
+                <div class="col-md-4 mb-4">
+                    <h5 class="text-uppercase fw-bold mb-3">Liên hệ</h5>
+                    <p class="text-white-50 mb-2">
+                        <i class="fa-solid fa-location-dot me-2"></i> 828 Sư Vạn Hạnh, Quận 10, TP.HCM
+                    </p>
+                    <p class="text-white-50 mb-2">
+                        <i class="fa-solid fa-phone me-2"></i> +84 123 456 789
+                    </p>
+                    <p class="text-white-50 mb-2">
+                        <i class="fa-solid fa-envelope me-2"></i> contact@noveastore.com
+                    </p>
+                </div>
+
+                <div class="col-md-4 mb-4">
+                    <h5 class="text-uppercase fw-bold mb-3">Thành viên nhóm</h5>
+                    <ul class="list-unstyled text-white-50">
+                        <li class="mb-2"><i class="fa-solid fa-user me-2"></i> Nguyễn Trần Hoàng Anh - 25DH112078</li>
+                        <li class="mb-2"><i class="fa-solid fa-user me-2"></i> Nguyễn Trần Thiên Bửu - 25DH230039</li>
+                        <li class="mb-2"><i class="fa-solid fa-user me-2"></i> </li>
+                        <li class="mb-2"><i class="fa-solid fa-user me-2"></i> Trà Thị Diễm Quỳnh - 25DH112222</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    <div class="text-center p-3 mt-3 border-top border-secondary text-white-50" style="font-size: 0.9rem;">
+        ©Đồ án Lập trình Web - Nhóm 2.
+    </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

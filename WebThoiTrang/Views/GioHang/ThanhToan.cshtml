@@ -1,0 +1,80 @@
+﻿@using WebThoiTrang.Controllers
+@model List<GioHangItem>
+@{
+    ViewBag.Title = "Thanh toán";
+    decimal tongTien = 0;
+}
+<div class="container mt-5 mb-5">
+    <h2 class="fw-bold mb-4 text-center" style="color: #4f6bed;">THANH TOÁN ĐƠN HÀNG</h2>
+
+    <form action="/GioHang/DatHang" method="post">
+        <div class="row g-4">
+            <div class="col-md-7">
+                <div class="bg-white p-4 rounded-4 shadow-sm">
+                    <h5 class="fw-bold mb-3">Thông tin nhận hàng</h5>
+
+                    <div class="mb-3">
+                        <label class="form-label">Họ và tên người nhận <span class="text-danger">*</span></label>
+                        <input type="text" name="hoTen" class="form-control" required placeholder="Nhập họ tên..." />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Số điện thoại <span class="text-danger">*</span></label>
+                        <input type="text" name="soDienThoai" class="form-control" required placeholder="Nhập số điện thoại..." />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Địa chỉ giao hàng <span class="text-danger">*</span></label>
+                        <textarea name="diaChi" class="form-control" rows="3" required placeholder="Số nhà, đường, phường/xã, quận/huyện..."></textarea>
+                    </div>
+
+                    <h5 class="fw-bold mb-3 mt-4">Phương thức thanh toán</h5>
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="radio" name="phuongThucThanhToan" id="cod" value="COD" checked>
+                        <label class="form-check-label" for="cod">Thanh toán khi nhận hàng (COD)</label>
+                    </div>
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="radio" name="phuongThucThanhToan" id="bank" value="Bank">
+                        <label class="form-check-label" for="bank">Chuyển khoản ngân hàng</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-5">
+                <div class="bg-white p-4 rounded-4 shadow-sm">
+                    <h5 class="fw-bold mb-3">Đơn hàng của bạn</h5>
+
+                    <ul class="list-group list-group-flush mb-3">
+                        @foreach (var item in Model)
+                        {
+                            var thanhTien = item.BienThe.GiaBan * item.SoLuong;
+                            tongTien += thanhTien;
+                            <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+                                <div>
+                                    <h6 class="my-0 text-truncate" style="max-width: 200px;">@item.BienThe.SanPham.TenSanPham</h6>
+                                    <small class="text-muted">@item.BienThe.KichCo / @item.BienThe.MauSac (x@item.SoLuong)</small>
+                                </div>
+                                <span class="text-dark fw-medium">@thanhTien.ToString("N0") đ</span>
+                            </li>
+                        }
+                    </ul>
+
+                    <div class="d-flex justify-content-between mb-2">
+                        <span class="text-muted">Tạm tính:</span>
+                        <span>@tongTien.ToString("N0") đ</span>
+                    </div>
+                    <hr />
+                    <div class="d-flex justify-content-between mb-4">
+                        <span class="fw-bold fs-5">Tổng cộng:</span>
+                        <span class="text-danger fw-bold fs-4">@tongTien.ToString("N0") đ</span>
+                    </div>
+
+                    <button type="submit" class="btn w-100 py-3 text-white fw-bold" style="background-color: #4f6bed; border-radius: 8px;">
+                        XÁC NHẬN ĐẶT HÀNG
+                    </button>
+                    <a href="/GioHang/Index" class="btn btn-link w-100 text-muted mt-2 text-decoration-none">Quay lại giỏ hàng</a>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
